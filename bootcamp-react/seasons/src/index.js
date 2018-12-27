@@ -3,11 +3,17 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 class App extends React.Component {
-  constructor(props) {
-    //To call React.Component constructor, else overriding
-    super(props);
-    //Only exception, direct assignment only while declaration
-    this.state = { lat: null, errorMessage: "" };
+  // constructor(props) {
+  //   //To call React.Component constructor, else overriding
+  //   super(props);
+  //   //Only exception, direct assignment only while declaration
+  //   // this.state = { lat: null, errorMessage: "" };
+  // }
+
+  state = { lat: null, errorMessage: "" };
+
+  componentDidMount() {
+    console.log("My component was rendered");
     window.navigator.geolocation.getCurrentPosition(
       position => {
         // var that = this;
@@ -18,6 +24,10 @@ class App extends React.Component {
         this.setState({ errorMessage: err.message });
       }
     );
+  }
+
+  componentDidUpdate() {
+    console.log("My component was updated");
   }
 
   //Render is requirement of React
