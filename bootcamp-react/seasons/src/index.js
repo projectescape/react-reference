@@ -7,20 +7,28 @@ class App extends React.Component {
     //To call React.Component constructor, else overriding
     super(props);
     //Only exception, direct assignment only while declaration
-    this.state = { lat: null };
+    this.state = { lat: null, errorMessage: "" };
     window.navigator.geolocation.getCurrentPosition(
       position => {
         // var that = this;
         //To update our state we can only use setState, this.state.lat wrong
         this.setState({ lat: position.coords.latitude });
       },
-      err => console.log(err)
+      err => {
+        this.setState({ errorMessage: err.message });
+      }
     );
   }
 
   //Render is requirement of React
   render = () => {
-    return <div>Latitude: {this.state.lat}</div>;
+    if (!this.state.lat && this.state.errorMessage) {
+      return <div>Error: {this.state.errorMessage}</div>;
+    } else if (this.state.lat && !this.state.errorMessage) {
+      return <div>Latitude: {this.state.lat}</div>;
+    } else {
+      return <div>Loading!</div>;
+    }
   };
 }
 
