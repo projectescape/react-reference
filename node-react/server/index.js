@@ -10,6 +10,7 @@ mongoose.connect(keys.mongoURI);
 
 const app = express();
 
+// App.use are middlewares
 // Add cookie support to express
 app.use(
   cookieSession({
