@@ -268,6 +268,10 @@ var _reactRouterConfig = __webpack_require__(4);
 
 var _reactRedux = __webpack_require__(2);
 
+var _serializeJavascript = __webpack_require__(19);
+
+var _serializeJavascript2 = _interopRequireDefault(_serializeJavascript);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function (req, store) {
@@ -285,7 +289,7 @@ exports.default = function (req, store) {
     )
   ));
 
-  return '\n  <html>\n    <head>\n    </head>\n    <body>\n      <div id="root">\n        ' + content + '\n        <script>\n          window.INITIAL_STATE=' + JSON.stringify(store.getState()) + '\n        </script>\n        <script src="bundle.js"></script>\n      </div>\n    </body>\n  </html>\n  ';
+  return '\n  <html>\n    <head>\n    </head>\n    <body>\n      <div id="root">\n        ' + content + '\n        <script>\n          window.INITIAL_STATE=' + (0, _serializeJavascript2.default)(store.getState()) + '\n        </script>\n        <script src="bundle.js"></script>\n      </div>\n    </body>\n  </html>\n  ';
 };
 
 /***/ }),
@@ -517,6 +521,12 @@ exports.default = function () {
       }
   }
 };
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports) {
+
+module.exports = require("serialize-javascript");
 
 /***/ })
 /******/ ]);
