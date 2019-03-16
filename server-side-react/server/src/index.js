@@ -4,14 +4,25 @@ import express from 'express';
 import renderer from './helpers/renderer';
 import createStore from './helpers/createStore';
 import { matchRoutes } from 'react-router-config';
+import proxy from 'express-http-proxy';
 import Routes from './client/Routes';
 
 const app = express();
 
+app.use(
+  '/api',
+  proxy('http://react-ssr-api.herokuapp.com', {
+    // Yeh sirf iss app ke liye hai according to its api server  //
+    proxyReptOptDecorator(opts) {
+      opts.headers['x-forwarded-host'] = 'localhost:3000';
+      return opts;
+    }
+  })
+);
 app.use(express.static('public'));
 
 app.get('*', (req, res) => {
-  const store = createStore();
+  const store = createStore(req);
 
   // Matchroutes tell us what components to be rendered if go to a certain path
   const promises = matchRoutes(Routes, req.path).map(({ route }) => {
