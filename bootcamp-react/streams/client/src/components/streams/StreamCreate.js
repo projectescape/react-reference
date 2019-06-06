@@ -1,5 +1,7 @@
-import React from 'react';
-import { Field, reduxForm } from 'redux-form';
+import React from "react";
+import { Field, reduxForm } from "redux-form";
+import { connect } from "react-redux";
+import { createStream } from "../../actions";
 
 class StreamCreate extends React.Component {
   renderError(meta) {
@@ -14,18 +16,20 @@ class StreamCreate extends React.Component {
 
   renderInput = formProps => {
     const className = `field ${
-      formProps.meta.error && formProps.meta.touched ? 'error' : ''
+      formProps.meta.error && formProps.meta.touched ? "error" : ""
     }`;
     return (
       <div className={className}>
         <label>{formProps.label}</label>
-        <input {...formProps.input} />
+        <input {...formProps.input} autoComplete="off" />
         {this.renderError(formProps.meta)}
       </div>
     );
   };
 
-  onSubmit(formValues) {}
+  onSubmit = formValues => {
+    this.props.createStream(formValues);
+  };
 
   render() {
     return (
@@ -49,17 +53,30 @@ const validate = formValues => {
   const errors = {};
 
   if (!formValues.title) {
-    errors.title = 'Enter Title';
+    errors.title = "Enter Title";
   }
 
   if (!formValues.description) {
-    errors.description = 'Enter description';
+    errors.description = "Enter description";
   }
 
   return errors;
 };
 
-export default reduxForm({
-  form: 'streamCreate',
+const formWrapped = reduxForm({
+  form: "streamCreate",
   validate
 })(StreamCreate);
+
+export default connect(
+  null,
+  { createStream }
+)(formWrapped);
+
+// One way to use connect with reduxForm
+// export default connect()(
+//   reduxForm({
+//     form: "streamCreate",
+//     validate
+//   })(StreamCreate)
+// );
