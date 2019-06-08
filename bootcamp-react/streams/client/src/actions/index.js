@@ -8,6 +8,7 @@ import {
   EDIT_STREAM
 } from "./types";
 import streams from "../apis/streams";
+import history from "../history";
 
 export const signIn = userId => {
   return {
@@ -27,6 +28,7 @@ export const createStream = formValues => {
     const { userId } = getState().auth;
     const response = await streams.post("/streams", { ...formValues, userId });
     dispatch({ type: CREATE_STREAM, payload: response.data });
+    history.push("/");
   };
 };
 
@@ -36,8 +38,9 @@ export const fetchStreams = () => async dispatch => {
 };
 
 export const fetchStream = id => async dispatch => {
-  const response = await streams.get("/stream/" + id);
+  const response = await streams.get(`/stream/${id}`);
   dispatch({ type: FETCH_STREAM, payload: response.data });
+  console.log("Inside action");
 };
 
 export const editStream = (id, formValues) => async dispatch => {
