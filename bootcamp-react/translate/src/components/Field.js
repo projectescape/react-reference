@@ -8,7 +8,7 @@ class Field extends React.Component {
     const text = this.context === "eng" ? "Name" : "Naam";
 
     return (
-      <div clasName="ui field">
+      <div className="ui field">
         <label>{text}</label>
         <input />
       </div>
